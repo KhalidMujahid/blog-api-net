@@ -1,0 +1,91 @@
+@blog_api_HostAddress = http://localhost:5035
+@token = replace-with-token
+
+GET {{blog_api_HostAddress}}/api/posts
+Accept: application/json
+
+###
+
+POST {{blog_api_HostAddress}}/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "grace",
+  "password": "password123"
+}
+
+###
+
+POST {{blog_api_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "grace",
+  "password": "password123"
+}
+
+###
+
+GET {{blog_api_HostAddress}}/api/auth/me
+Authorization: Bearer {{token}}
+Accept: application/json
+
+###
+
+GET {{blog_api_HostAddress}}/api/posts?includeDrafts=true
+Accept: application/json
+
+###
+
+GET {{blog_api_HostAddress}}/api/posts/1
+Accept: application/json
+
+###
+
+POST {{blog_api_HostAddress}}/api/posts
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "title": "My first blog post",
+  "summary": "A short intro post",
+  "content": "This is the full content of the post.",
+  "tags": ["intro", "blog", "dotnet"],
+  "isPublished": true
+}
+
+###
+
+PUT {{blog_api_HostAddress}}/api/posts/2
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "title": "Designing a simple blog API",
+  "summary": "Updated summary",
+  "content": "Updated post content.",
+  "tags": ["backend", "rest"],
+  "isPublished": true
+}
+
+###
+
+PATCH {{blog_api_HostAddress}}/api/posts/2/publish
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "isPublished": true
+}
+
+###
+
+POST {{blog_api_HostAddress}}/api/posts/1/comments
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "message": "Nice post."
+}
+
+###

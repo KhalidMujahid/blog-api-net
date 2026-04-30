@@ -1,0 +1,55 @@
+# Build output
+bin/
+obj/
+out/
+publish/
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Visual Studio
+.vs/
+
+# VS Code
+.vscode/
+
+# Rider / JetBrains
+.idea/
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Environment files
+.env
+.env.*
+
+# Local secrets and certificates
+secrets.json
+*.pfx
+*.snk
+
+# Test and coverage output
+TestResults/
+coverage/
+coverage.*
+
+# NuGet
+*.nupkg
+packages/
+
+# Docker overrides
+docker-compose.override.yml
+
+# Optional local app settings
+appsettings.Local.json
+appsettings.*.local.json

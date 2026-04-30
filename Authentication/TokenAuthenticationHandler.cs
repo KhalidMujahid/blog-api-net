@@ -20,29 +20,29 @@ public class TokenAuthenticationHandler : AuthenticationHandler<AuthenticationSc
         _authService = authService;
     }
 
-    protected override Task<AuthenticateResult> HandleAuthenticateAsync()
+    protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
     {
         if (!Request.Headers.TryGetValue("Authorization", out var authorizationHeader))
         {
-            return Task.FromResult(AuthenticateResult.NoResult());
+            return AuthenticateResult.NoResult();
         }
 
         var headerValue = authorizationHeader.ToString();
         if (!headerValue.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
         {
-            return Task.FromResult(AuthenticateResult.NoResult());
+            return AuthenticateResult.NoResult();
         }
 
         var token = headerValue["Bearer ".Length..].Trim();
         if (string.IsNullOrWhiteSpace(token))
         {
-            return Task.FromResult(AuthenticateResult.Fail("Missing token."));
+            return AuthenticateResult.Fail("Missing token.");
         }
 
-        var user = _authService.GetUserByToken(token);
+        var user = await _authService.GetUserByTokenAsync(token);
         if (user is null)
         {
-            return Task.FromResult(AuthenticateResult.Fail("Invalid token."));
+            return AuthenticateResult.Fail("Invalid token.");
         }
 
         var claims = new[]
@@ -55,6 +55,6 @@ public class TokenAuthenticationHandler : AuthenticationHandler<AuthenticationSc
         var principal = new ClaimsPrincipal(identity);
         var ticket = new AuthenticationTicket(principal, TokenAuthenticationDefaults.AuthenticationScheme);
 
-        return Task.FromResult(AuthenticateResult.Success(ticket));
+        return AuthenticateResult.Success(ticket);
     }
 }

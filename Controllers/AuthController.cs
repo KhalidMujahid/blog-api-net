@@ -10,18 +10,18 @@ namespace blog_api.Controllers;
 public class AuthController(IAuthService authService) : ControllerBase
 {
     [HttpPost("register")]
-    public ActionResult<AuthResponse> Register([FromBody] RegisterRequest request)
+    public async Task<ActionResult<AuthResponse>> Register([FromBody] RegisterRequest request)
     {
-        var result = authService.Register(request);
+        var result = await authService.RegisterAsync(request);
         return result is null
             ? Conflict(new { message = "Username is already taken." })
             : Created("/api/auth/me", result);
     }
 
     [HttpPost("login")]
-    public ActionResult<AuthResponse> Login([FromBody] LoginRequest request)
+    public async Task<ActionResult<AuthResponse>> Login([FromBody] LoginRequest request)
     {
-        var result = authService.Login(request);
+        var result = await authService.LoginAsync(request);
         return result is null
             ? Unauthorized(new { message = "Invalid username or password." })
             : Ok(result);
@@ -29,7 +29,7 @@ public class AuthController(IAuthService authService) : ControllerBase
 
     [Authorize]
     [HttpGet("me")]
-    public ActionResult<UserProfileResponse> Me()
+    public async Task<ActionResult<UserProfileResponse>> Me()
     {
         var username = User.Identity?.Name;
         if (string.IsNullOrWhiteSpace(username))
@@ -37,7 +37,7 @@ public class AuthController(IAuthService authService) : ControllerBase
             return Unauthorized(new { message = "User is not authenticated." });
         }
 
-        var user = authService.GetUserByUsername(username);
+        var user = await authService.GetUserByUsernameAsync(username);
         return user is null
             ? Unauthorized(new { message = "User is not authenticated." })
             : Ok(new UserProfileResponse(user.Id, user.Username, user.CreatedAt));

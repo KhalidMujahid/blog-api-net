@@ -1,9 +1,12 @@
 namespace blog_api.Models;
 
-public record AppUser
+public class AppUser
 {
-    public int Id { get; init; }
-    public string Username { get; init; } = string.Empty;
-    public string PasswordHash { get; init; } = string.Empty;
-    public DateTime CreatedAt { get; init; }
+    public int Id { get; set; }
+    public string Username { get; set; } = string.Empty;
+    public string PasswordHash { get; set; } = string.Empty;
+    public DateTime CreatedAt { get; set; }
+    public ICollection<AuthToken> Tokens { get; set; } = [];
+    public ICollection<BlogPost> Posts { get; set; } = [];
+    public ICollection<Comment> Comments { get; set; } = [];
 }

@@ -42,6 +42,7 @@ secrets.json
 TestResults/
 coverage/
 coverage.*
+build-verify/
 
 # NuGet
 *.nupkg

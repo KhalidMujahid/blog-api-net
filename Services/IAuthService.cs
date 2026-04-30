@@ -5,8 +5,8 @@ namespace blog_api.Services;
 
 public interface IAuthService
 {
-    AuthResponse? Register(RegisterRequest request);
-    AuthResponse? Login(LoginRequest request);
-    AppUser? GetUserByToken(string token);
-    AppUser? GetUserByUsername(string username);
+    Task<AuthResponse?> RegisterAsync(RegisterRequest request);
+    Task<AuthResponse?> LoginAsync(LoginRequest request);
+    Task<AppUser?> GetUserByTokenAsync(string token);
+    Task<AppUser?> GetUserByUsernameAsync(string username);
 }

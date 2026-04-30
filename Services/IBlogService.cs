@@ -5,15 +5,15 @@ namespace blog_api.Services;
 
 public interface IBlogService
 {
-    BlogPost[] GetPosts(string? search, string? author, string? tag, bool includeDrafts);
-    BlogPost? GetPostById(int id);
-    BlogPost? GetPostBySlug(string slug);
-    bool PostExists(int id);
-    BlogPost CreatePost(CreatePostRequest request, string username);
-    BlogOperationResult<BlogPost> UpdatePost(int id, UpdatePostRequest request, string username);
-    BlogOperationResult<BlogPost> SetPublishState(int id, bool isPublished, string username);
-    DeleteStatus DeletePost(int id, string username);
-    Comment[] GetComments(int postId);
-    Comment? AddComment(int postId, CreateCommentRequest request, string username);
-    DeleteStatus DeleteComment(int postId, int commentId, string username);
+    Task<BlogPost[]> GetPostsAsync(string? search, string? author, string? tag, bool includeDrafts);
+    Task<BlogPost?> GetPostByIdAsync(int id);
+    Task<BlogPost?> GetPostBySlugAsync(string slug);
+    Task<bool> PostExistsAsync(int id);
+    Task<BlogPost> CreatePostAsync(CreatePostRequest request, string username);
+    Task<BlogOperationResult<BlogPost>> UpdatePostAsync(int id, UpdatePostRequest request, string username);
+    Task<BlogOperationResult<BlogPost>> SetPublishStateAsync(int id, bool isPublished, string username);
+    Task<DeleteStatus> DeletePostAsync(int id, string username);
+    Task<Comment[]> GetCommentsAsync(int postId);
+    Task<Comment?> AddCommentAsync(int postId, CreateCommentRequest request, string username);
+    Task<DeleteStatus> DeleteCommentAsync(int postId, int commentId, string username);
 }

@@ -33,6 +33,7 @@ app.MapGet("/", () => Results.Ok(new
     pattern = "MVC",
     endpoints = new[]
     {
+        "/docs",
         "/api/auth/register",
         "/api/auth/login",
         "/api/auth/me",

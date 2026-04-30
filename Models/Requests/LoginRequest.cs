@@ -2,6 +2,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace blog_api.Models.Requests;
 
-public record LoginRequest(
-    [property: Required] string Username,
-    [property: Required] string Password);
+public record LoginRequest
+{
+    [Required]
+    public string Username { get; init; } = string.Empty;
+
+    [Required]
+    public string Password { get; init; } = string.Empty;
+}

@@ -1,10 +1,12 @@
 using blog_api.Authentication;
 using blog_api.Services;
 using Microsoft.AspNetCore.Authentication;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+builder.Services.AddOpenApi("v1");
 builder.Services.AddSingleton<IBlogService, InMemoryBlogService>();
 builder.Services.AddSingleton<IAuthService, InMemoryAuthService>();
 builder.Services
@@ -24,6 +26,11 @@ if (app.Environment.IsDevelopment())
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapOpenApi("/openapi/{documentName}.json");
+app.MapScalarApiReference("/scalar", options =>
+{
+    options.Title = "Blog API";
+});
 app.MapControllers();
 
 app.MapGet("/", () => Results.Ok(new
@@ -33,7 +40,8 @@ app.MapGet("/", () => Results.Ok(new
     pattern = "MVC",
     endpoints = new[]
     {
-        "/docs",
+        "/scalar",
+        "/openapi/v1.json",
         "/api/auth/register",
         "/api/auth/login",
         "/api/auth/me",
